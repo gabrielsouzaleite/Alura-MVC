@@ -3,7 +3,7 @@
 use Alura\Cursos\Controller\{Exclusao, FormularioEdicao, FormularioInsercao, FormularioLogin, ListarCursos, Persistencia, RealizarLogin};
 
 
-$rotas = [
+return [
     '/login' => FormularioLogin::class,
     '/realiza-login' => RealizarLogin::class,
     '/listar-cursos' => ListarCursos::class,
@@ -12,5 +12,3 @@ $rotas = [
     '/excluir-curso' => Exclusao::class,
     '/alterar-curso' => FormularioEdicao::class
 ];
-
-return $rotas;
