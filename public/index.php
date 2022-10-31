@@ -22,9 +22,17 @@ $creator = new ServerRequestCreator(
   $psr17Factory  // StreamFactory
 );
 
-$reques = $creator->fromGlobals();
+$request = $creator->fromGlobals();
 
 $classeControladora = $rotas[$caminho];
 $container = require __DIR__ . '/../config/dependecies.php';
 $controlador = $container->get($classeControladora);
-$controlador->processaRequisicao();
+$resposta = $controlador->handle($request);
+
+foreach ($resposta->getHeaders() as $name => $values) {
+  foreach ($values as $value) {
+    header(sprintf('%s: %s', $name, $value), false);
+  }
+}
+
+echo $resposta->getBody();

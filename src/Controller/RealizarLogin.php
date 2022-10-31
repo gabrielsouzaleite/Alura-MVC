@@ -3,23 +3,26 @@
 namespace Alura\Cursos\Controller;
 
 use Alura\Cursos\Entity\Usuario;
-use Alura\Cursos\Infra\EntityManagerCreator;
+use Doctrine\ORM\EntityManagerInterface;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class RealizarLogin implements InterfaceControladorRequisicao
+class RealizarLogin implements RequestHandlerInterface
 {
   /**
    * @var \Doctrine\Common\Persistence\ObjectRepository
    */
   private $repositorioDeUsuarios;
 
-  public function __construct()
+  public function __construct(EntityManagerInterface $entityManager)
   {
-    $entityManager = (new EntityManagerCreator())->getEntityManager();
     $this->repositorioDeUsuarios = $entityManager
       ->getRepository(Usuario::class);
   }
 
-  public function processaRequisicao(): void
+  public function handle(ServerRequestInterface $request): ResponseInterface
   {
     $email = filter_input(
       INPUT_POST,
@@ -46,7 +49,7 @@ class RealizarLogin implements InterfaceControladorRequisicao
       echo "E-mail ou senha inválidos";
       return;
     }
-
-    header('Location: /listar-cursos');
+    $resposta = new Response(302, ['Location' => '/listar-cursos']);
+    return $resposta;
   }
 }

@@ -2,7 +2,7 @@
 
 namespace Alura\Cursos\Controller;
 
-class ControllerComHtml
+trait ControllerComHtml
 {
   public function renderizaHtml(string $caminhoTemplate, array $dados): void
   {
